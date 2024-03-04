@@ -26,4 +26,8 @@ input:active {
 .errorMessage {
   font-size: 14px;
   color: red;
+  margin: 0;
+  padding: 0;
+  margin-top: 5px;
+
 }

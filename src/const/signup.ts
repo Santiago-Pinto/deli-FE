@@ -1,12 +1,41 @@
+const mailRegex = new RegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+
 export const fields = [
-  { name: "email", type: "email", header: "Email" },
-  { name: "fullName", type: "text", header: "Nombre completo:" },
-  { name: "age", type: "number", header: "Edad:" },
-  { name: "userName", type: "text", header: "Nombre de usuario:" },
+  {
+    name: "email",
+    type: "text",
+    header: "Email",
+    validate: (value: string) => {
+      return mailRegex.test(value) ? "" : "Formato incorrecto de email";
+    },
+  },
+  {
+    name: "fullName",
+    type: "text",
+    header: "Nombre completo:",
+    validate: (value: string) => {
+      return value.trim() !== "" ? "" : "Este campo es obligatorio";
+    },
+  },
+  {
+    name: "age",
+    type: "number",
+    header: "Edad:",
+    validate: (value: string) => {
+      return !isNaN(Number(value)) && Number(value) > 0 ? "" : "Edad invalida";
+    },
+  },
+  {
+    name: "userName",
+    type: "text",
+    header: "Nombre de usuario:",
+    validate: (value: string) => {
+      return value.trim() !== "" ? "" : "Este campo es obligatorio";
+    },
+  },
 ];
 
 export const countries = [
-  "Selecciona un país",
   "Afganistán",
   "Albania",
   "Argelia",

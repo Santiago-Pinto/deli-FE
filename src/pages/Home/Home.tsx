@@ -25,7 +25,6 @@ export const Home = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form data:", formData);
 
     const response = await fetch("http://localhost:3000/accounts", {
       method: "POST",
@@ -48,15 +47,15 @@ export const Home = () => {
 
   const { email, fullName, age, userName, country } = formData;
 
-  // Validar si todos los campos están completos y en el formato correcto
+  const mailRegex = new RegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+
   const isFormValid =
-    email.trim() !== "" &&
+    !!mailRegex.test(email) &&
     fullName.trim() !== "" &&
     !isNaN(Number(age)) &&
     Number(age) > 0 &&
     userName.trim() !== "" &&
-    country.trim() !== "" &&
-    country !== "Selecciona un país";
+    country.trim() !== "";
 
   return (
     <div className="container">
@@ -71,13 +70,7 @@ export const Home = () => {
               return (
                 <div className="formField" key={field.name}>
                   <label>{field.header}</label>
-                  <Input
-                    value={formData[field.name as keyof typeof formData]}
-                    onChange={handleChange}
-                    name={field.name}
-                    type={field.type}
-                    errorMessage=""
-                  />
+                  <Input value={formData[field.name as keyof typeof formData]} onChange={handleChange} {...field} />
                 </div>
               );
             })}
