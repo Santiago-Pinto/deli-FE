@@ -1,0 +1,29 @@
+input {
+  height: 30px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  padding-left: 10px;
+  font-size: 16px;
+  width: 100%;
+
+  /* These prevent the input from overflowing its container */
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+input:focus,
+input:active {
+  border-color: #ff5023;
+  outline: 1px solid #ff5023;
+}
+
+.inputError {
+  border-color: red;
+  outline: 1px solid red;
+}
+
+.errorMessage {
+  font-size: 14px;
+  color: red;
+}

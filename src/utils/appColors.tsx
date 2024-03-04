@@ -1,6 +1,6 @@
 export const appColors = {
   red: {
-    main: "#e84646",
+    main: "#ff5023",
   },
 
   white: "#ffffff",
