@@ -11,7 +11,7 @@ export const Home = () => {
     email: "",
     fullName: "",
     age: "",
-    username: "",
+    userName: "",
     country: "",
   });
 
@@ -23,20 +23,30 @@ export const Home = () => {
     });
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Form data:", formData);
+
+    const response = await fetch("http://localhost:3000/accounts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    console.log(response.json());
 
     setFormData({
       email: "",
       fullName: "",
       age: "",
-      username: "",
+      userName: "",
       country: "",
     });
   };
 
-  const { email, fullName, age, username, country } = formData;
+  const { email, fullName, age, userName, country } = formData;
 
   // Validar si todos los campos están completos y en el formato correcto
   const isFormValid =
@@ -44,7 +54,7 @@ export const Home = () => {
     fullName.trim() !== "" &&
     !isNaN(Number(age)) &&
     Number(age) > 0 &&
-    username.trim() !== "" &&
+    userName.trim() !== "" &&
     country.trim() !== "" &&
     country !== "Selecciona un país";
 
@@ -53,13 +63,13 @@ export const Home = () => {
       <header>
         <img src="https://drive.google.com/thumbnail?id=12m785Csxi9iMSdl46MvEwuxtvst6urjl" alt="Header Image" />
       </header>
-      <div className="content">
+      <main className="content">
         <div className="formContent">
           <h1>Registro</h1>
           <form onSubmit={handleSubmit}>
             {fields.map((field) => {
               return (
-                <div className="formField">
+                <div className="formField" key={field.name}>
                   <label>{field.header}</label>
                   <Input
                     value={formData[field.name as keyof typeof formData]}
@@ -81,7 +91,7 @@ export const Home = () => {
             </div>
           </form>
         </div>
-      </div>
+      </main>
       <footer>
         <div className="footerContent">
           <p>Copyright © 2024</p>

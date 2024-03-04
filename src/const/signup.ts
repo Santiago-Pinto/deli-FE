@@ -2,7 +2,7 @@ export const fields = [
   { name: "email", type: "email", header: "Email" },
   { name: "fullName", type: "text", header: "Nombre completo:" },
   { name: "age", type: "number", header: "Edad:" },
-  { name: "username", type: "text", header: "Nombre de usuario:" },
+  { name: "userName", type: "text", header: "Nombre de usuario:" },
 ];
 
 export const countries = [
