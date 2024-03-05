@@ -10,5 +10,9 @@ interface ButtonProps {
 export const Button = (props: ButtonProps) => {
   const { text } = props;
 
-  return <button {...props}>{text}</button>;
+  return (
+    <button {...props} className="customBtn">
+      {text}
+    </button>
+  );
 };

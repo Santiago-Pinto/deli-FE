@@ -1,4 +1,4 @@
-button {
+.customBtn {
   background-color: #ff5023;
   color: #fff;
   border: none;
@@ -10,7 +10,7 @@ button {
   width: 100%;
 }
 
-button:disabled {
+.customBtn:disabled {
   background-color: #ccc;
   cursor: not-allowed;
 }

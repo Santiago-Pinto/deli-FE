@@ -19,13 +19,17 @@ export const Input = (props: InputProps) => {
     }
   };
 
-  useEffect(() => {
-    setErrorMessage("");
-  }, [value]);
-
   return (
     <>
-      <input {...props} className={!!errorMessage ? "inputError" : undefined} onBlur={checkErrors} />
+      <input
+        {...props}
+        className={!!errorMessage ? "inputError" : undefined}
+        onBlur={checkErrors}
+        onChange={(val) => {
+          onChange(val);
+          setErrorMessage("");
+        }}
+      />
       {!!errorMessage && <p className="errorMessage">{errorMessage}</p>}
     </>
   );
