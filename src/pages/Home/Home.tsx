@@ -7,6 +7,8 @@ import { Button } from "../../components/Button/Button";
 import { useNavigate } from "react-router-dom";
 import { Snackbar } from "../../components/Snackbar/Snackbar";
 import "./HomeStyles.css";
+import { createAccount } from "../../services/account";
+import { statusCodes } from "../../const/statusCodes";
 
 export const Home = () => {
   const [formData, setFormData] = useState({
@@ -32,23 +34,15 @@ export const Home = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:3000/accounts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.status === 201) {
+      const response = await createAccount(formData);
+      if (response.status === statusCodes.CREATED) {
         navigate("/welcome");
       }
 
-      if (response.status === 409) {
+      if (response.status === statusCodes.CONFLICT) {
         setError("El email ingresado ya pertenece a otra cuenta");
       }
     } catch (error: unknown) {
-      console.log(error);
       setError("Ocurrió un error inesperado, por favor intenta de nuevo mas tarde");
     }
   };
