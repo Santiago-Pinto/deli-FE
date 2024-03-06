@@ -12,7 +12,7 @@ Ejecutar el siguiente comando para instalar las dependencias necesarias: **_npm 
 
 ## Uso
 
-Para ejecutar el proyecto en modo de desarrollo, se debe usar el siguiente comando: **_npm start**
+Para ejecutar el proyecto en modo de desarrollo, se debe usar el siguiente comando: **_npm start_**
 
 
 
