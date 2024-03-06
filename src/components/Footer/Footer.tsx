@@ -1,6 +1,5 @@
 import "./FooterStyles.css";
 import deliLogoOrange from "../../assets/deli-logo-orange.png";
-import deliLogoWhite from "../../assets/deli-logo-white.png";
 
 
 export const Footer = () => {

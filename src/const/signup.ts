@@ -36,6 +36,7 @@ export const fields = [
 ];
 
 export const countries = [
+  "Selecciona un país",
   "Afganistán",
   "Albania",
   "Argelia",

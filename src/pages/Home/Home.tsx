@@ -6,9 +6,10 @@ import { Dropdown } from "../../components/Dropdown/Dropdown";
 import { Button } from "../../components/Button/Button";
 import { useNavigate } from "react-router-dom";
 import { Snackbar } from "../../components/Snackbar/Snackbar";
-import "./HomeStyles.css";
 import { createAccount } from "../../services/account";
 import { statusCodes } from "../../const/statusCodes";
+import "./HomeStyles.css";
+
 
 export const Home = () => {
   const [formData, setFormData] = useState({
@@ -57,7 +58,8 @@ export const Home = () => {
     !isNaN(Number(age)) &&
     Number(age) > 0 &&
     userName.trim() !== "" &&
-    country.trim() !== "";
+    country.trim() !== "" &&
+    country !== countries[0];
 
   return (
     <main className="content">
