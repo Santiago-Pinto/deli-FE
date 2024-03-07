@@ -1,7 +1,9 @@
+import { AccountFormInputs } from "../types/account";
+
 const mailRegex = new RegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
 
-export const fields = [
-  {
+export const fields: AccountFormInputs = {
+  email: {
     name: "email",
     type: "text",
     header: "Email",
@@ -9,7 +11,7 @@ export const fields = [
       return mailRegex.test(value) ? "" : "Formato incorrecto de email";
     },
   },
-  {
+  fullName: {
     name: "fullName",
     type: "text",
     header: "Nombre completo:",
@@ -17,7 +19,7 @@ export const fields = [
       return value.trim() !== "" ? "" : "Este campo es obligatorio";
     },
   },
-  {
+  age: {
     name: "age",
     type: "number",
     header: "Edad:",
@@ -25,7 +27,7 @@ export const fields = [
       return !isNaN(Number(value)) && Number(value) > 0 ? "" : "Edad invalida";
     },
   },
-  {
+  userName: {
     name: "userName",
     type: "text",
     header: "Nombre de usuario:",
@@ -33,7 +35,7 @@ export const fields = [
       return value.trim() !== "" ? "" : "Este campo es obligatorio";
     },
   },
-];
+};
 
 export const countries = [
   "Selecciona un país",

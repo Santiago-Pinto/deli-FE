@@ -8,8 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { Snackbar } from "../../components/Snackbar/Snackbar";
 import { createAccount } from "../../services/account";
 import { statusCodes } from "../../const/statusCodes";
+import { AccountFormInputs } from "../../types/account";
 import "./HomeStyles.css";
-
 
 export const Home = () => {
   const [formData, setFormData] = useState({
@@ -20,7 +20,8 @@ export const Home = () => {
     country: "",
   });
 
-  const [error, setError] = useState("");
+  const [apiCallError, setApiCallError] = useState("");
+  const [inputErrors, setInputErrors] = useState({});
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -28,6 +29,19 @@ export const Home = () => {
       ...formData,
       [name]: value,
     });
+
+    /* 
+      The current behavior makes the validation occurr after the input loses focus, this opens an edge case 
+      for the last input to be filled, as it may enable the register button before checking if its content
+      is valid. With this logic I check if the input being filled is the last one and switch to an 
+      'onChange validation' to avoid this issue, while keeping the UX in the other cases where I think it's better.
+    */
+    const remainingFieldsToFill = Object.values(formData).filter((value) => !value).length;
+    if (remainingFieldsToFill <= 1 && name !== "country") {
+      setInputErrors({ ...inputErrors, [name]: fields[name as keyof AccountFormInputs].validate(value) });
+    } else {
+      setInputErrors({ ...inputErrors, [name]: "" });
+    }
   };
 
   const navigate = useNavigate();
@@ -41,36 +55,43 @@ export const Home = () => {
       }
 
       if (response.status === statusCodes.CONFLICT) {
-        setError("El email ingresado ya pertenece a otra cuenta");
+        setApiCallError("El email ingresado ya pertenece a otra cuenta");
       }
     } catch (error: unknown) {
-      setError("Ocurrió un error inesperado, por favor intenta de nuevo mas tarde");
+      setApiCallError("Ocurrió un error inesperado, por favor intenta de nuevo mas tarde");
     }
   };
 
-  const { email, fullName, age, userName, country } = formData;
+  const handleBlur = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setInputErrors({ ...inputErrors, [name]: fields[name as keyof AccountFormInputs].validate(value) });
+  };
 
-  const mailRegex = new RegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+  const { country } = formData;
 
-  const isFormValid =
-    !!mailRegex.test(email) &&
-    fullName.trim() !== "" &&
-    !isNaN(Number(age)) &&
-    Number(age) > 0 &&
-    userName.trim() !== "" &&
-    country.trim() !== "" &&
-    country !== countries[0];
+  const isFormValid = Object.keys(formData).every(
+    (fieldName) =>
+      !!formData[fieldName as keyof typeof formData] &&
+      !inputErrors[fieldName as keyof typeof inputErrors] &&
+      formData["country"] !== countries[0]
+  );
 
   return (
     <main className="content">
       <div className="formContent">
         <h1>Registro</h1>
         <form onSubmit={handleSubmit}>
-          {fields.map((field) => {
+          {Object.values(fields).map((field) => {
             return (
               <div className="formField" key={field.name}>
                 <label>{field.header}</label>
-                <Input value={formData[field.name as keyof typeof formData]} onChange={handleChange} {...field} />
+                <Input
+                  {...field}
+                  value={formData[field.name as keyof typeof formData]}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  errorMessage={inputErrors[field.name as keyof typeof inputErrors]}
+                />
               </div>
             );
           })}
@@ -84,7 +105,7 @@ export const Home = () => {
           </div>
         </form>
       </div>
-      {!!error && <Snackbar message={error} onClose={() => setError("")} />}
+      {!!apiCallError && <Snackbar message={apiCallError} onClose={() => setApiCallError("")} />}
     </main>
   );
 };
